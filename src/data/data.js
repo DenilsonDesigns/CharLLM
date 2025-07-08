@@ -1,6 +1,7 @@
+// Step 1: data prep & hot-encoding.
+
 const corpus = "hello world";
 
-// Step 1: Build Vocabulary
 const uniqueChars = [...new Set(corpus.split(""))];
 const vocabSize = uniqueChars.length;
 
@@ -12,7 +13,6 @@ uniqueChars.forEach((char, idx) => {
   indexToChar[idx] = char;
 });
 
-// Step 2: One-hot encode a character
 function oneHotEncode(char) {
   const vector = new Array(vocabSize).fill(0);
   const index = charToIndex[char];
@@ -20,13 +20,11 @@ function oneHotEncode(char) {
   return vector;
 }
 
-// Step 3: Decode a one-hot vector to a character
 function oneHotDecode(vector) {
   const index = vector.findIndex((v) => v === 1);
   return indexToChar[index];
 }
 
-// Step 4: Build input/output training pairs
 const trainingData = [];
 
 for (let i = 0; i < corpus.length - 1; i++) {
@@ -38,7 +36,6 @@ for (let i = 0; i < corpus.length - 1; i++) {
   });
 }
 
-// Exports
 module.exports = {
   corpus,
   uniqueChars,

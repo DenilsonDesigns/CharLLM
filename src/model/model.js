@@ -22,16 +22,56 @@ const hiddenSize = 16; // tiny brain neurons
 const W1 = new Array(vocabSize)
   .fill()
   .map(() => new Array(hiddenSize).fill().map(() => Math.random() * 0.01));
+
 const W2 = new Array(hiddenSize)
   .fill()
   .map(() => new Array(vocabSize).fill().map(() => Math.random() * 0.01));
 
+/**
+ * Example for W1/W2:
+  [
+    0.0047343596328174664, 
+    0.008812500613511312,  
+    0.003732669088724674,  
+    0.0007149477878344191, 
+    0.0024370031972661944, 
+    0.00529274185800737,   
+    0.007882645655596432,  
+    0.0008945588410191196  
+  ]
+ */
+
 // Activation: ReLU
+// In this example, the ReLU does nothing, as we are feeding it:
+/**
+ * [
+  0.0019168301980879289,
+  0.009483825439606344,
+  0.0005918440827694772,
+  0.003973657602150138,
+  0.009110943691961849,
+  0.008436279722900435,
+  0.005940415444028961,
+  0.0037332654766470364,
+  0.0029963106438972644,
+  0.006940712493531432,
+  0.006015048496892506,
+  0.00992179374061352,
+  0.0020291559022959363,
+  0.005772072513619597,
+  0.00695049890257039,
+  0.0033261841118561565
+]
+  and all these numbers are > 0, so it effectively just returns it to us. 
+  in more complex models/training tho, inputs can be negative (not sure how/why)
+  need to investigate this more later. 
+ */
 function relu(vec) {
   return vec.map((x) => Math.max(0, x));
 }
 
 // Softmax for output layer
+// give probabilities summing to 1 for each vector entry.
 function softmax(vec) {
   const max = Math.max(...vec); // avoid overflow
   const exps = vec.map((x) => Math.exp(x - max));
@@ -41,7 +81,8 @@ function softmax(vec) {
 
 // Matrix multiply: vec • W
 function matMulVec(W, vec) {
-  const out = new Array(W[0].length).fill(0);
+  const out = new Array(W[0].length).fill(0); // [0, ... *16] for W1, [0, ... * 8] for W2
+
   for (let i = 0; i < W[0].length; i++) {
     for (let j = 0; j < W.length; j++) {
       out[i] += vec[j] * W[j][i];

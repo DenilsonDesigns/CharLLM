@@ -34,4 +34,4 @@ Questions:
   5.  Training loop
   6.  Sampling (text generation)
 
-Step 3: Loss and Gradient
+Step 3: Loss function (TBC)

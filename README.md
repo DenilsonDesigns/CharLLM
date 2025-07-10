@@ -75,3 +75,57 @@ Applying 100 runs of this backward propagation training, we can start with a bas
 ```
 
 This is after training the model to target `e` after character `h`
+
+## Step 5: Training Loop (Multiple Examples)
+
+Instead of training on just a single pair like 'h' → 'e', we now loop through the entire corpus — training the model on all adjacent character pairs (e.g., 'e' → 'l', 'l' → 'l', 'l' → 'o', etc.).
+
+We run multiple epochs (full passes over the dataset), and at each step, we:
+
+Do a forward pass to get predictions
+
+Calculate the loss (how wrong we were)
+
+Apply backpropagation to adjust weights
+
+Over time, the model gets better at predicting all character transitions in the dataset, and we see the loss drop significantly.
+
+### Example:
+
+Before training:
+
+```
+Sample 1: Predicted ' ' | Target 'l' | Loss: 2.08
+```
+
+After training:
+
+```
+Sample 1: Predicted 'l' | Target 'l' | Loss: 0.03
+```
+
+This shows the model is learning the pattern in the text — it’s no longer just memorizing 'h' → 'e', but generalizing to the whole sentence.
+
+## Step 6: Sampling (text generation)
+
+After training, the model can generate new text by predicting the next character step-by-step.
+
+We start with a seed character (e.g., 'h').
+
+The model predicts probabilities for the next character.
+
+We sample from these probabilities to pick the next character.
+
+This new character becomes the input for the next prediction.
+
+Repeating this generates a sequence of characters resembling the learned text patterns.
+
+This step shows the model’s ability to create coherent sequences based on what it learned during training.
+
+Example output:
+
+```
+🧾 SAMPLE OUTPUT
+Starting from 'h':
+helllllllllldhrlolorl
+```
